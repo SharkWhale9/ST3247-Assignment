@@ -45,7 +45,7 @@
     \item Lou Jia Jun, A0299872A, e1354238@u.nus.edu
 \end{enumerate}
 
-{\bf Github Repository:} 
+{\bf Github Repository:} \url{https://github.com/SharkWhale9/ST3247-Assignment/}
 
 \section{Introduction}
 The classical SIR (Susceptible–Infected–Recovered) model is one of the most widely used frameworks for studying the spread of infectious diseases. In most of these network models, the epidemic propagates on a fixed network. In reality, however, individuals adapt their behaviour in response to the epidemic: susceptible individuals may avoid infected contacts,  leading to a dynamically evolving network. This project studies a stochastic SIR epidemic model on such an adaptive network, introduced by \citet{gross2006epidemic}.
@@ -355,10 +355,13 @@ the tolerance with an approximate likelihood, yielding a more concentrated
 and structurally coherent posterior. However, further methodological
 improvements remain possible.
 
-An implementation of Regression Adjustment \citep{beaumont2002approximate} can be found in the code but is not discussed in the report. Future work could explore Sequential methods such as SMC-ABC \citep{Sisson2007} and ABC-MCMC \citep{marjoram2013approximation} as they improve computational efficiency by concentrating simulations in high-posterior regions. Expectation-Propagation ABC \citep{barthelme2014expectation} is a more radical departure, as it requires no summary statistics, but is subject to its own limitations, such as convergence not being guaranteed and requiring advanced variance reduction methods for stability. 
+An implementation of Regression Adjustment \citep{beaumont2002approximate} can be found in the code but is not discussed in this report. Future work could explore SMC-ABC \citep{Sisson2007} and ABC-MCMC \citep{marjoram2013approximation}. Alternatively, Expectation-Propagation ABC \citep{barthelme2014expectation} is of particular interest as it does not require summary statistics and directly approximates the posterior via iterative reverse KL optimisation. However, it has limitations, including lack of guaranteed convergence and requiring advanced variance reduction methods for stability. 
 
-\section{Acknowledgement}
-While researching on this topic, I came across a \href{https://youtu.be/77yECJ8_dyk?si=wJEvxuK5s3MCoifo{lecture} by Prof. David Nott. It was very insightful and when I reached out to him, he provided me some resources regarding BSL. I am very grateful for his support and would like to thank him. 
+
+
+\section*{Acknowledgement}
+\vspace{-1em} % Yes I'm cheating to fit within the 10 page limit
+During this project, I came across a \href{https://youtu.be/77yECJ8_dyk?si=wJEvxuK5s3MCoifo}{lecture} by Prof. David Nott on Approximate Bayesian Computation, which provided valuable insight into the topic. While exploring advanced methods, I encountered his work on Bayesian Synthetic Likelihood \citep{Price02012018}. After reaching out to him, he kindly shared additional resources and guidance that helped deepen my understanding. I am sincerely grateful for his time and support.
 
 %
 % === BIBLIOGRAPHY =====
