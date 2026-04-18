@@ -1,4 +1,18 @@
 # ST3247-Assignment
+
+## Overview
+This project applies simulation-based inference (SBI) to estimate the parameters
+of a stochastic SIR epidemic model on an adaptive network, where susceptible
+individuals rewire their contacts to avoid infected neighbours. Because the
+rewiring mechanism couples disease dynamics to network topology, the likelihood
+is intractable and standard statistical methods cannot be applied directly.
+
+Two inference methods are implemented and compared:
+- **Rejection ABC** — a tractable baseline using Euclidean distance on summary statistics
+- **Bayesian Synthetic Likelihood (BSL)** — a more principled alternative using
+  Metropolis-Hastings MCMC with a Gaussian approximation to the likelihood
+
+## Repository Structure
 .
 ├── assignment.ipynb              # Jupyter notebook containing all simulation and inference code
 ├── ST3247_assignment.tex         # LaTeX source file of the final report
@@ -7,4 +21,46 @@
 ├── infected_timeseries.csv       # Observed infection time series (provided dataset)
 ├── rewiring_timeseries.csv       # Observed rewiring time series (provided dataset)
 ├── final_degree.csv              # Observed final degree distribution (provided dataset)
+
+## Data
+The three CSV files contain observed data from 40 independent realisations of
+the model, all generated at the same unknown parameter values
+$\theta^* = (\beta^*, \gamma^*, \rho^*)$. The goal is to infer these parameters.
+
+| File | Columns | Description |
+|---|---|---|
+| `infected_timeseries.csv` | `replicate_id, time, infected_fraction` | Fraction of population infected at each time step |
+| `rewiring_timeseries.csv` | `replicate_id, time, rewire_count` | Number of rewiring events at each time step |
+| `final_degree_histograms.csv` | `replicate_id, degree, count` | Degree distribution of the contact network at $t = 200$ |
+
+## Usage
+
+### Requirements
+```bash
+pip install numpy pandas scipy matplotlib numba
+```
+
+### Running the notebook
+Open `assignment.ipynb` and run cells in order. Note that the ABC simulation
+cell (~1 million simulations) takes approximately **25 minutes** and only
+needs to be run once — all downstream cells reuse the stored results.
+The BSL MCMC chain takes similar time.
+
+### Key configuration options
+All tunable parameters are at the top of their respective cells:
+
+| Variable | Location | Description |
+|---|---|---|
+| `MASTER_SEED` | Top of notebook | Set to integer for reproducibility, `None` for fresh run |
+| `N_sims` | ABC simulation cell | Number of prior simulations (default: 1,000,000) |
+| `STAT_COLS` | Distance computation cell | Summary statistics used for ABC — change without re-simulating |
+| `N_ITER`, `M_BSL` | BSL run cell | MCMC iterations and simulations per likelihood evaluation |
+
+### Alternative methods (commented out)
+Two additional methods are implemented but commented out in the notebook:
+- **Mahalanobis distance** — uncomment the block below `STAT_COLS` to replace
+  Euclidean distance with a covariance-weighted alternative
+- **Regression adjustment** (Beaumont et al., 2002) — uncomment the block below
+  the acceptance step to apply local linear regression post-processing to the
+  ABC posterior, without any additional simulation
 
