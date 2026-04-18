@@ -189,17 +189,17 @@ The pairwise joint posterior (Figure 2) reveals a moderate positive correlation 
 \subsection{Assessment of Posterior Quality}
  \begin{figure}[h]
     \centering
-    \includegraphics[width=0.9\textwidth]{visual_ppc.png}
+    \includegraphics[width=\textwidth]{visual_ppc.png}
     \caption{Visual posterior predictive check}
     \label{fig: VPPC}
     \centering
 \end{figure}
 
-Figure 3 shows the visual posterior predictive check. For each of 200 draws from the accepted posterior, the simulator was run once to produce a replicated epidemic trajectory. The resulting 90\% predictive envelope and median trajectory are overlaid against the 40 observed replicates and their mean. The observed mean closely tracks the PPC median throughout the epidemic, and the 90\% envelope contains the majority of observed trajectories in all time steps.
+Figure 3 shows the visual posterior predictive check. For each of 200 draws from the accepted posterior, the simulator was run once to produce a replicated epidemic trajectory. The resulting 95\% predictive envelope and median trajectory are overlaid against the 40 observed replicates and their mean. The observed mean closely tracks the PPC median throughout the epidemic, and the 95\% envelope contains the majority of observed trajectories in all time steps.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.9\textwidth]{PPC.png}
+    \includegraphics[width=\textwidth]{PPC.png}
     \caption{Posterior predictive p-values}
     \label{fig: PPC}
     \centering
@@ -320,11 +320,9 @@ Under BSL, all three parameters exhibit stronger posterior contraction than unde
         \centering
     \end{figure}
 
-The weak $\gamma$–$\rho$ correlation ($r \leq 0.05$) is consistent across both methods, confirming that rew\_per\_infected effectively separates recovery from network adaptation.
+The weak $\gamma$–$\rho$ correlation ($r \leq 0.05$) is consistent across both methods, confirming that rew\_per\_infected effectively separates recovery from network adaptation. In contrast, the $\beta$–$\rho$ dependence differs markedly: ABC yields a moderate correlation ($r \approx 0.45$), whereas BSL recovers a much stronger association ($r \approx 0.83$). This discrepancy reflects a structural difference between the methods. Rejection ABC compresses the multivariate summary vector into a single Euclidean distance, which can attenuate dependence patterns, while BSL directly models the full covariance structure of the summaries at each proposed $\theta$.
 
-For $\beta$–$\rho$, ABC gives a moderate correlation ($r \approx 0.45$), while BSL yields a stronger correlation ($r \approx 0.83$), suggesting that the Euclidean-distance used in ABC partially attenuates this structure, whereas BSL preserves it through the full covariance of the summaries.
-
-Overall, this suggests that BSL provides a more concentrated posterior while more faithfully capturing the model’s dependence structure than Euclidean-distance based ABC. Table 6 reports the posterior means and 95\% credible intervals under both methods.
+Overall, BSL shows an improvement over ABC, producing more concentrated posteriors and a more coherent dependence structure. Table 6 reports posterior means and 95\% credible intervals under both approaches.
 
 \begin{table}[H]
 \centering
