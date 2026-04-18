@@ -1,14 +1,14 @@
 \documentclass[12pt, a4paper]{article}
 
 \usepackage{amsmath, amssymb, amsthm}  % for math symbols
-\usepackage[margin=1in]{geometry}      % for formating the margins
+\usepackage[margin=1in]{geometry}      % for formatting the margins
 \usepackage{graphicx, float}           % for including images
 \graphicspath{{plots/}}                % for image path
 \usepackage{caption}                   % for image captions
 \usepackage{multicol}                  % for multiple columns
 \usepackage{enumitem}                  % more enumerate functions
 \usepackage{xcolor}                    % for coloured text
-\usepackage{natbib}                    % for biblography
+\usepackage{natbib}                    % for bibliography
 \usepackage{libertine}                 % for fonts
 \usepackage{booktabs}
 \usepackage{hyperref}
@@ -48,13 +48,13 @@
 {\bf Github Repository:} \url{https://github.com/SharkWhale9/ST3247-Assignment/}
 
 \section{Introduction}
-The classical SIR (Susceptible–Infected–Recovered) model is one of the most widely used frameworks for studying the spread of infectious diseases. In most of these network models, the epidemic propagates on a fixed network. In reality, however, individuals adapt their behaviour in response to the epidemic: susceptible individuals may avoid infected contacts,  leading to a dynamically evolving network. This project studies a stochastic SIR epidemic model on such an adaptive network, introduced by \citet{gross2006epidemic}.
+The classical SIR (Susceptible–Infected–Recovered) model is one of the most widely used frameworks for studying the spread of infectious diseases. In most of these network models, the epidemic propagates on a fixed network. In reality, however, individuals adapt their behaviour in response to the epidemic: susceptible individuals may avoid infected contacts, leading to a dynamically evolving network. This project studies a stochastic SIR epidemic model on such an adaptive network, introduced by \citet{gross2006epidemic}.
 
 \subsection{The Model}
-We consider a population of $N = 200$ agents interacting on an undirected Erdos-Renyi random graph $G(N,p)$ with $p =0.05$. This graph serves as the contact network and yields an expected degree $\approx 10$. Each node is in one of three states: susceptible (S), infected (I), or recovered (R). The simulation runs for $T=200$ discrete time steps. At each discrete time step, three synchronous processes occur:
+We consider a population of $N = 200$ agents interacting on an undirected Erdos-Renyi random graph $G(N,p)$ with $p=0.05$. This graph serves as the contact network and yields an expected degree $\approx 10$. Each node is in one of three states: susceptible (S), infected (I), or recovered (R). The simulation runs for $T=200$ discrete time steps. At each discrete time step, three synchronous processes occur:
 \begin{enumerate}
-    \item Infection: Each susceptible node connected to an infected neighbour becomes infected with probability $\beta$
-    \item Recovery: Each infected node (including those newly infected in the current step) recovers with probability $\gamma$
+    \item Infection: Each susceptible node connected to an infected neighbour becomes infected with probability $\beta$.
+    \item Recovery: Each infected node (including those newly infected in the current step) recovers with probability $\gamma$.
     \item Rewiring: For each S–I edge, the susceptible node breaks the connection with probability $\rho$ and reconnects to a uniformly chosen non-neighbor. Note that this new connection could be with an infected agent.
 \end{enumerate}
 The three unknown parameters and their priors are summarised in Table 1.
@@ -174,7 +174,7 @@ $\hat{\rho}$   & 0.3051 & 0.0624 & {(}0.1940, 0.4299{)} & 70.5\%      \\ \bottom
     \centering
 \end{figure}
 
-Contraction measures the relative reduction in 95\% credible interval width relative to the prior. A value above ~50\% is generally considered informative. The substantial contraction across all three parameters indicates that the observed data are informative and that the ABC procedure is not merely reproducing prior.
+Contraction measures the relative reduction in 95\% credible interval width relative to the prior. A value above ~50\% is generally considered informative. The substantial contraction across all three parameters indicates that the observed data are informative and that the ABC procedure is not merely reproducing the prior.
 
 \begin{figure}[h!]
     \centering
@@ -184,7 +184,7 @@ Contraction measures the relative reduction in 95\% credible interval width rela
     \centering
 \end{figure}
 
-The pairwise joint posterior (Figure 2) reveals a moderate positive correlation between $\beta$ and $\rho$ ($r = 0.452$). This is structurally expected as $\beta$ and $\rho$ can both suppress the epidemic through different mechanisms: higher $\beta$ increases transmission while higher $\rho$ removes S–I edges through rewiring, resulting in the two parameters partially compensate each other in producing similar epidemic trajectories. The correlation between $\beta$ and $\gamma$ is weaker ($r = 0.297$), indicating that the chosen summaries were effective at discriminating between transmission and recovery.
+The pairwise joint posterior (Figure 2) reveals a moderate positive correlation between $\beta$ and $\rho$ ($r = 0.452$). This is structurally expected as $\beta$ and $\rho$ can both suppress the epidemic through different mechanisms: higher $\beta$ increases transmission while higher $\rho$ removes S–I edges through rewiring, resulting in the two parameters partially compensating for each other in producing similar epidemic trajectories. The correlation between $\beta$ and $\gamma$ is weaker ($r = 0.297$), indicating that the chosen summaries were effective at discriminating between transmission and recovery.
 
 \subsection{Assessment of Posterior Quality}
  \begin{figure}[h]
@@ -205,7 +205,7 @@ Figure 3 shows the visual posterior predictive check. For each of 200 draws from
     \centering
 \end{figure}
 
-To quantify model adequacy beyond visual inspection, we adopt the posterior predictive checking framework of \citet{Gelman1996}. For each accepted posterior sample ($\beta_i,\gamma_i,\rho_i$), we replicate a trajectory $y^\text{rep}$ and compute a set of test statistics $T(y^\text{rep})$. To avoid circular validation, the statistic should not be one used for fitting. We then compare these replicated statistics to the observed values. The posterior predictive p-value is defined as
+To quantify model adequacy beyond visual inspection, we adopt the posterior predictive checking framework of \citet{Gelman1996}. For each accepted posterior sample ($\beta_i,\gamma_i,\rho_i$), we replicate a trajectory $y^\text{rep}$ and compute a set of test statistics $T(y^\text{rep})$. To avoid circular validation, the statistic should not be one that was used for fitting. We then compare these replicated statistics to the observed values. The posterior predictive p-value is defined as
 $$PPP = P(T(y^\text{rep}) \geq T(y^\text{obs}) \mid y^\text{obs})$$
 and estimated as the fraction of replicates where $T(y^\text{rep}) \geq T(y^\text{obs})$. 
 
@@ -235,7 +235,7 @@ total\_rew         & -0.049743 & -0.148137 & 0.612046  \\ \hline
 These empirical correlations (Table 4) confirm the theoretical justification provided in Section 2. Epidemic-shape summaries (peak, peak\_t, auc) are primarily informative about $\beta$ and $\gamma$, while network summaries (peak\_rew, rew\_per\_infected, var\_deg) are primarily informative about $\rho$. Notably, total\_rew is weakly correlated with both $\beta$ and $\gamma$ ($|r| < 0.15$), whereas rew\_per\_infected shows stronger discrimination across all three parameters. Substituting total\_rew for rew\_per\_infected increased the $\beta$-$\rho$ correlation from 0.457 to 0.667, and the $\gamma$-$\rho$ correlation from 0.050 to 0.260, confirming that normalising by cumulative infections better decouples $\rho$ from the other parameters.
 
 \subsubsection{Comparison with classical SIR model}
-To demonstrate the necessity of network summaries  for this model class, we repeated the ABC procedure using only the trajectory-based statistics commonly used in classical SIR models: \{peak, peak\_t, auc, early, duration\}, where early is the early growth rate of infection. 
+To demonstrate the necessity of network summaries for this model class, we repeated the ABC procedure using only the trajectory-based statistics commonly used in classical SIR models: \{peak, peak\_t, auc, early, duration\}, where early is the early growth rate of infection. 
 
 \begin{figure}[h!]
     \centering
@@ -299,7 +299,7 @@ $\hat{\gamma}$ & 0.0807 & 0.0053 & {(}0.0703, 0.0913{)} & 88.3\%      \\
 $\hat{\rho}$   & 0.3062 & 0.0284 & {(}0.2563, 0.3695{)} & 85.9\%      \\ 
 \bottomrule
 \end{tabular}
-\caption{Posterior estimates and credible interval contraction for model parameters (SBL)}
+\caption{Posterior estimates and credible interval contraction for model parameters (BSL)}
 \end{table}
     
 Under BSL, all three parameters exhibit stronger posterior contraction than under rejection ABC, with narrower credible intervals and reduced marginal variance (Table 5), reflecting more efficient use of the joint information in the summaries.
@@ -353,9 +353,7 @@ the tolerance with an approximate likelihood, yielding a more concentrated
 and structurally coherent posterior. However, further methodological
 improvements remain possible.
 
-An implementation of Regression Adjustment \citep{beaumont2002approximate} can be found in the code but is not discussed in this report. Future work could explore SMC-ABC \citep{Sisson2007} and ABC-MCMC \citep{marjoram2013approximation}. Alternatively, Expectation-Propagation ABC \citep{barthelme2014expectation} is of particular interest as it does not require summary statistics and directly approximates the posterior via iterative reverse KL optimisation. However, it has limitations, including lack of guaranteed convergence and requiring advanced variance reduction methods for stability. 
-
-
+An implementation of Regression Adjustment \citep{beaumont2002approximate} can be found in the code but is not discussed in this report. Future work could explore SMC-ABC \citep{Sisson2007} and ABC-MCMC \citep{marjoram2013approximation}. Alternatively, Expectation-Propagation ABC \citep{barthelme2014expectation} is of particular interest as it does not require summary statistics and directly approximates the posterior via iterative reverse KL optimisation. However, it has limitations, including a lack of guaranteed convergence and the need for advanced variance reduction methods for stability. 
 
 \section*{Acknowledgement}
 \vspace{-1em} % Yes I'm cheating to fit within the 10 page limit
