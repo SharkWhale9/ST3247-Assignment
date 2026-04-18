@@ -44,7 +44,7 @@ pip install numpy pandas scipy matplotlib numba
 Open `assignment.ipynb` and run cells in order. Note that the ABC simulation
 cell (~1 million simulations) takes approximately **25 minutes** and only
 needs to be run once — all downstream cells reuse the stored results.
-The BSL MCMC chain takes similar time.
+The BSL simulaton takes approximately **15 minutes**.
 
 ### Key configuration options
 All tunable parameters are at the top of their respective cells:
