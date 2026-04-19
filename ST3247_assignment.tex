@@ -48,7 +48,7 @@
 {\bf Github Repository:} \url{https://github.com/SharkWhale9/ST3247-Assignment/}
 
 \section{Introduction}
-The classical SIR (Susceptible–Infected–Recovered) model is one of the most widely used frameworks for studying the spread of infectious diseases. In most of these network models, the epidemic propagates on a fixed network. In reality, however, individuals adapt their behaviour in response to the epidemic: susceptible individuals may avoid infected contacts, leading to a dynamically evolving network. This project studies a stochastic SIR epidemic model on such an adaptive network, introduced by \citet{gross2006epidemic}.
+The classical SIR (Susceptible–Infected–Recovered) model is one of the most widely used frameworks for studying the spread of infectious diseases. In most of these network models, the epidemic propagates on a fixed network. In reality, individuals adapt their behaviour in response to the epidemic: e.g. susceptible individuals may avoid infected contacts, leading to a dynamically evolving network. This project studies a stochastic SIR epidemic model on such an adaptive network introduced by \citet{gross2006epidemic}.
 
 \subsection{The Model}
 We consider a population of $N = 200$ agents interacting on an undirected Erdos-Renyi random graph $G(N,p)$ with $p=0.05$. This graph serves as the contact network and yields an expected degree $\approx 10$. Each node is in one of three states: susceptible (S), infected (I), or recovered (R). The simulation runs for $T=200$ discrete time steps. At each discrete time step, three synchronous processes occur:
@@ -85,7 +85,7 @@ Importantly, the underlying contact network and individual-level state transitio
 \subsection{Why the Likelihood Is Intractable}
 The rewiring mechanism couples the disease dynamics to the network topology, creating a feedback loop: the spread of infection reshapes the contact structure, which in turn changes how the disease spreads \citep{gross2006epidemic}. Evaluating the exact likelihood $p(\text{data} \mid \theta)$ would require marginalising over every possible joint sequence of infection events, recoveries, and network rewirings. Because both agent states and network evolve stochastically, the number of such trajectories grows exponentially with $N$ and $T$, making exact computation infeasible. 
 
-We therefore turn to simulation-based inference methods that do not require explicit likelihood evaluation for inference about the model parameters. We begin with Approximate Bayesian Computation as a tractable baseline.
+We therefore turn to simulation-based inference methods that do not require explicit likelihood evaluation for inference about the model parameters. We begin with Approximate Bayesian Computation as a baseline.
 
 \section{Summary Statistics Design}
 Summary statistics are used in ABC to reduce high-dimensional data into a low-dimensional set of features that are sensitive to parameters of interest. Effective statistics allow the partial posterior to closely match the true full posterior. The six statistics used throughout this project are described in Table 2, together with the parameter each targets and its theoretical motivation. The validity of these summary statistics is discussed in Section 3.4.
@@ -174,7 +174,7 @@ $\hat{\rho}$   & 0.3051 & 0.0624 & {(}0.1940, 0.4299{)} & 70.5\%      \\ \bottom
     \centering
 \end{figure}
 
-Contraction measures the relative reduction in 95\% credible interval width relative to the prior. A value above ~50\% is generally considered informative. The substantial contraction across all three parameters indicates that the observed data are informative and that the ABC procedure is not merely reproducing the prior.
+Contraction measures the relative reduction in 95\% credible interval width relative to the prior. A value above ~50\% is generally considered informative. The significant contraction across all three parameters (Figure 1) indicates that the observed data are informative and that the ABC procedure is not merely reproducing the prior.
 
 \begin{figure}[h!]
     \centering
@@ -205,7 +205,7 @@ Figure 3 shows the visual posterior predictive check. For each of 200 draws from
     \centering
 \end{figure}
 
-To quantify model adequacy beyond visual inspection, we adopt the posterior predictive checking framework of \citet{Gelman1996}. For each accepted posterior sample ($\beta_i,\gamma_i,\rho_i$), we replicate a trajectory $y^\text{rep}$ and compute a set of test statistics $T(y^\text{rep})$. To avoid circular validation, the statistic should not be one that was used for fitting. We then compare these replicated statistics to the observed values. The posterior predictive p-value is defined as
+To quantify model adequacy beyond visual inspection, we adopt the posterior predictive checking framework of \citet{Gelman1996}. For each accepted posterior sample ($\beta_i,\gamma_i,\rho_i$), we replicate a trajectory $y^\text{rep}$ and compute a set of test statistics $T(y^\text{rep})$. To avoid circular validation, this statistic should not be one that was used for fitting. We then compare these replicated statistics to the observed values. The posterior predictive p-value is defined as
 $$PPP = P(T(y^\text{rep}) \geq T(y^\text{obs}) \mid y^\text{obs})$$
 and estimated as the fraction of replicates where $T(y^\text{rep}) \geq T(y^\text{obs})$. 
 
@@ -232,7 +232,7 @@ total\_rew         & -0.049743 & -0.148137 & 0.612046  \\ \hline
 \caption{Correlation between summary statistics \& model parameters}
 \end{table}
 
-These empirical correlations (Table 4) confirm the theoretical justification provided in Section 2. Epidemic-shape summaries (peak, peak\_t, auc) are primarily informative about $\beta$ and $\gamma$, while network summaries (peak\_rew, rew\_per\_infected, var\_deg) are primarily informative about $\rho$. Notably, total\_rew is weakly correlated with both $\beta$ and $\gamma$ ($|r| < 0.15$), whereas rew\_per\_infected shows stronger discrimination across all three parameters. Substituting total\_rew for rew\_per\_infected increased the $\beta$-$\rho$ correlation from 0.457 to 0.667, and the $\gamma$-$\rho$ correlation from 0.050 to 0.260, confirming that normalising by cumulative infections better decouples $\rho$ from the other parameters.
+These empirical correlations (Table 4) confirm the theoretical justification provided in Section 2. Epidemic-shape summaries (peak, peak\_t, auc) are primarily informative about $\beta$ and $\gamma$, while network summaries (peak\_rew, rew\_per\_infected, var\_deg) are primarily informative about $\rho$. Notably, total\_rew is weakly correlated with both $\beta$ and $\gamma$ ($|r| < 0.15$), whereas rew\_per\_infected shows stronger correlation across all three parameters. Substituting total\_rew for rew\_per\_infected increased the $\beta$-$\rho$ correlation from 0.457 to 0.667, and the $\gamma$-$\rho$ correlation from 0.050 to 0.260, confirming that normalising by cumulative infections better decouples $\rho$ from the other parameters.
 
 \subsubsection{Comparison with classical SIR model}
 To demonstrate the necessity of network summaries for this model class, we repeated the ABC procedure using only the trajectory-based statistics commonly used in classical SIR models: \{peak, peak\_t, auc, early, duration\}, where early is the early growth rate of infection. 
@@ -320,9 +320,9 @@ Under BSL, all three parameters exhibit stronger posterior contraction than unde
         \centering
     \end{figure}
 
-The weak $\gamma$–$\rho$ correlation ($r \leq 0.05$) is consistent across both methods, confirming that rew\_per\_infected effectively separates recovery from network adaptation. In contrast, the $\beta$–$\rho$ dependence differs markedly: ABC yields a moderate correlation ($r \approx 0.45$), whereas BSL recovers a much stronger association ($r \approx 0.83$). This discrepancy reflects a structural difference between the methods. Rejection ABC compresses the multivariate summary vector into a single Euclidean distance, which can attenuate dependence patterns, while BSL directly models the full covariance structure of the summaries at each proposed $\theta$.
+The weak $\gamma$–$\rho$ correlation ($r \leq 0.05$) is consistent across both methods, confirming that rew\_per\_infected effectively separates recovery from network adaptation. In contrast, the $\beta$–$\rho$ dependence differs significantly: ABC yields a moderate correlation ($r \approx 0.45$), whereas BSL recovers a much stronger association ($r \approx 0.83$). This discrepancy reflects a structural difference between the methods. Rejection ABC compresses the multivariate summary vector into a single Euclidean distance, which can attenuate dependence patterns, while BSL preserves the covariance structure of the summaries at each proposed $\theta$.
 
-Overall, BSL shows an improvement over ABC, producing more concentrated posteriors and a more coherent dependence structure. Table 6 reports posterior means and 95\% credible intervals under both approaches.
+Overall, BSL shows an improvement over ABC, producing more concentrated posteriors and a more coherent dependence structure. Table 6 reports posterior means and 95\% credible intervals under both approaches. These will serve as estimates for the true model parameters.
 
 \begin{table}[H]
 \centering
